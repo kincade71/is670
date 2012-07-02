@@ -63,6 +63,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Machine.cs" />
     <Compile Include="Decrypt.cs" />
     <Compile Include="Encrypt.cs" />
     <Compile Include="Rotor.cs" />

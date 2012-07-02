@@ -19,40 +19,40 @@ namespace Enigma
     {
         // TODO: Implement the collection resource that will contain the Rotor instances
 
-        [WebGet(UriTemplate = "", ResponseFormat=WebMessageFormat.Json)]
-        public List<Rotor> GetCollection()
-        {
-            // TODO: Replace the current implementation to return a collection of Rotor instances
-            return new List<Rotor>() { new Rotor() { Id = 1, StringValue = "Decrypt" } };
-        }
+        //[WebGet(UriTemplate = "", ResponseFormat=WebMessageFormat.Json)]
+        //public List<Rotor> GetCollection()
+        //{
+        //    // TODO: Replace the current implementation to return a collection of Rotor instances
+        //    return new List<Rotor>() { new Rotor() { Id = 1, StringValue = "Decrypt" } };
+        //}
 
-        [WebInvoke(UriTemplate = "", Method = "POST")]
-        public Rotor Create(Rotor instance)
-        {
-            // TODO: Add the new instance of Rotor to the collection
-            throw new NotImplementedException();
-        }
+    //    [WebInvoke(UriTemplate = "", Method = "POST")]
+    //    public Rotor Create(Rotor instance)
+    //    {
+    //        // TODO: Add the new instance of Rotor to the collection
+    //        throw new NotImplementedException();
+    //    }
 
-        [WebGet(UriTemplate = "{id}")]
-        public Rotor Get(string id)
-        {
-            // TODO: Return the instance of Rotor with the given id
-            throw new NotImplementedException();
-        }
+    //    [WebGet(UriTemplate = "{id}")]
+    //    public Rotor Get(string id)
+    //    {
+    //        // TODO: Return the instance of Rotor with the given id
+    //        throw new NotImplementedException();
+    //    }
 
-        [WebInvoke(UriTemplate = "{id}", Method = "PUT")]
-        public Rotor Update(string id, Rotor instance)
-        {
-            // TODO: Update the given instance of Rotor in the collection
-            throw new NotImplementedException();
-        }
+    //    [WebInvoke(UriTemplate = "{id}", Method = "PUT")]
+    //    public Rotor Update(string id, Rotor instance)
+    //    {
+    //        // TODO: Update the given instance of Rotor in the collection
+    //        throw new NotImplementedException();
+    //    }
 
-        [WebInvoke(UriTemplate = "{id}", Method = "DELETE")]
-        public void Delete(string id)
-        {
-            // TODO: Remove the instance of Rotor with the given id from the collection
-            throw new NotImplementedException();
-        }
+    //    [WebInvoke(UriTemplate = "{id}", Method = "DELETE")]
+    //    public void Delete(string id)
+    //    {
+    //        // TODO: Remove the instance of Rotor with the given id from the collection
+    //        throw new NotImplementedException();
+    //    }
 
     }
 }

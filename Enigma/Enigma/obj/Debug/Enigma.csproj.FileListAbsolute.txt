@@ -3,3 +3,8 @@ c:\users\jgesposi\documents\visual studio 2010\Projects\Enigma\Enigma\bin\Enigma
 c:\users\jgesposi\documents\visual studio 2010\Projects\Enigma\Enigma\obj\Debug\ResolveAssemblyReference.cache
 c:\users\jgesposi\documents\visual studio 2010\Projects\Enigma\Enigma\obj\Debug\Enigma.dll
 c:\users\jgesposi\documents\visual studio 2010\Projects\Enigma\Enigma\obj\Debug\Enigma.pdb
+C:\Users\Jim\Documents\GitHub\is670\Enigma\Enigma\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Jim\Documents\GitHub\is670\Enigma\Enigma\obj\Debug\Enigma.dll
+C:\Users\Jim\Documents\GitHub\is670\Enigma\Enigma\obj\Debug\Enigma.pdb
+C:\Users\Jim\Documents\GitHub\is670\Enigma\Enigma\bin\Enigma.dll
+C:\Users\Jim\Documents\GitHub\is670\Enigma\Enigma\bin\Enigma.pdb
