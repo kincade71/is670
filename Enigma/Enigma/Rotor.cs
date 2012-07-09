@@ -6,6 +6,47 @@ using System.Text;
 
 namespace Enigma
 {
+    public class RotorIn
+    {
+        public string rclass { get; set; }
+        public string rtype { get; set; }
+        public string slot { get; set; }
+        public char start { get; set; }
+    }
+
+    public class Plugboard
+    {
+        public string from { get; set; }
+        public string to { get; set; }
+    }
+
+    public class RootObjectIn
+    {
+        public string encryption { get; set; }
+        public string message { get; set; }
+        public List<RotorIn> rotors { get; set; }
+        public List<Plugboard> plugboard { get; set; }
+    }
+
+    public class EndingPosition
+    {
+        public string slot { get; set; }
+        public string end { get; set; }
+    }
+
+    public class EncryptionPath
+    {
+        public string From { get; set; }
+        public string To { get; set; }
+    }
+
+    public class RootObjectOut
+    {
+        public string encryptedMessage { get; set; }
+        public List<EndingPosition> endingPositions { get; set; }
+        public List<EncryptionPath> encryptionPath { get; set; }
+    }
+
     public class RotorI
     {
         public char[] charMapping = { 'E', 'K', 'M', 'F', 'L', 'G', 'D', 'Q', 'V', 'Z', 'N', 'T', 'O', 'W', 'Y', 'H', 'X', 'U', 'S', 'P', 'A', 'I', 'B', 'R', 'C', 'J' };
