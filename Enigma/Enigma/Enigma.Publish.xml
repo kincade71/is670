@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="ftp://koinoniasgr.com" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Enigma" publishMethod="FTP" replaceMatchingFiles="True" userName="koinonia_enigma" savePWD="True" userPWD="AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA6TpnbO1A8U+nh+jWn42CAAAAAAACAAAAAAAQZgAAAAEAACAAAABUhy3oC31xDuZPeBK+Nqc6WGm2P+SohPT9X2IhXNiHQgAAAAAOgAAAAAIAACAAAAAxm21PgbmgBsSULfLUunLDMDKJGgATUcT8WDZEtMHk+hAAAAD1jzH3l10nrVoqG7TewihVQAAAAK6VErHaf5FSXsQEOhko7bMpkSaXkHDHgLC3QIES6UjGbxFYvDOGbUw2lT9V5mCljQoMSzl9NQRwmUHGbpvvsHo=" SelectedForPublish="True">
+    <file relUrl="Global.asax" publishTime="07/03/2012 19:08:06" />
+    <file relUrl="bin/Enigma.dll" publishTime="07/12/2012 19:16:32" />
+    <file relUrl="Web.config" publishTime="07/12/2012 19:16:45" />
+    <file relUrl="bin/Enigma.pdb" publishTime="07/12/2012 19:16:32" />
+  </publishProfile>
+</publishData>

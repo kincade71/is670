@@ -16,7 +16,6 @@ namespace Enigma
         {
             // Edit the base address of Service1 by replacing the "Service1" string below
             RouteTable.Routes.Add(new ServiceRoute("Encrypt", new WebServiceHostFactory(), typeof(Encrypt)));
-            RouteTable.Routes.Add(new ServiceRoute("Decrypt", new WebServiceHostFactory(), typeof(Decrypt)));
         }
     }
 }
