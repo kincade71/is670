@@ -100,18 +100,95 @@ namespace Enigma
         [WebInvoke(UriTemplate = "", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         public RootObjectOut GetMachineByParam(RootObjectIn jm) //(Stream s)
         {
-            //StreamReader reader = new StreamReader(s);
-            //string res = reader.ReadToEnd();
-            //reader.Close();
-            //reader.Dispose();
-            //JavaScriptSerializer ser = new JavaScriptSerializer();
-            //RootObjectIn jm = ser.Deserialize<RootObjectIn>(res);
-            RootObjectOut output = new RootObjectOut();
+          RootObjectOut output = new RootObjectOut();
             String EncodedMessage = "";
+            output.errorMessage = "";
+
+            if (jm.encryption == null)
+            {
+                output.errorMessage = "encryption key required";
+                return output;
+            }
+            if (jm.msgTo == null)
+            {
+                output.errorMessage = "msgTo key required";
+                return output;
+            }
+            if (jm.msgFrom == null)
+            {
+                output.errorMessage = "msgFrom key required";
+                return output;
+            }
+            if (jm.message == null)
+            {
+                jm.message = "";
+            }
+            if (jm.message == "")
+            {
+                output.errorMessage = "message is null";
+            }
+            if (jm.rotors == null)
+            {
+                output.errorMessage = "At least 3 rotors and 1 reflector must be sent. Rotor key is required.";
+                return output;
+            }
+            else if (jm.rotors.Count() < 4)
+            {
+                output.errorMessage = "At least 3 rotors and 1 reflector must be sent.";
+                return output;
+            }
+            else
+            {
+                Boolean reflectorFound = false;
+                Boolean invalidTypeFound = false;
+                Boolean multipleReflectors = false;
+                foreach (RotorIn rIn in jm.rotors)
+                {
+                    if (rIn.rclass.ToString().ToLower() == "reflector")
+                    {
+                        if (reflectorFound)
+                        {
+                            multipleReflectors = true;
+                            break;
+                        }
+                        reflectorFound=true;
+                        if (rIn.rtype != "B" && rIn.rtype != "C")
+                        {
+                            invalidTypeFound = true;
+                        }
+                    }
+                    else if (rIn.rtype != "I" && rIn.rtype != "II" && rIn.rtype != "III" && rIn.rtype != "IV" && rIn.rtype != "V")
+                    {
+                        invalidTypeFound = true;
+                    }
+                    if (invalidTypeFound)
+                        break;
+                }
+                if (multipleReflectors)
+                {
+                    output.errorMessage = "Multiple reflectors found. Can only send one reflector type.";
+                    return output;
+                }
+                if (invalidTypeFound)
+                {
+                    output.errorMessage = "Valid rotor types include \"I\", \"II\", \"III\", \"IV\", \"V\". Valid reflector types include \"B\", \"C\".";
+                    return output;
+                }
+                if (!reflectorFound)
+                {
+                    output.errorMessage = "Must include 1 reflector";
+                    return output;
+                }
+
+            }
+            if (jm.plugboard == null)
+            {
+                jm.plugboard = new List<Plugboard>();
+                Array.Resize<Plugboard>(ref plugArray, jm.plugboard.Count);
+            }
             String TypedMessage = jm.message;
             String messageTo = jm.msgTo;
-            String messageFrom = jm.msgFrom;
-
+            String messageFrom = jm.msgFrom; 
             if (jm.encryption.ToLower() == "on")
             {
                 if (jm.plugboard.Count() > 0)
@@ -284,29 +361,23 @@ namespace Enigma
                 output.endingPositions.Add(ePos);
             }
             output.encryptedMessage = EncodedMessage;
-            //Debug.WriteLine("Incoming Message: " + TypedMessage);
-            //Debug.WriteLine("Encoded Message: " + EncodedMessage);
 
             try
             {
-                String strConnection = ConfigurationManager.ConnectionStrings["LocalMySqlServer"].ConnectionString;
+                String strConnection = ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString;
                 SqlConnection Connection = new SqlConnection(strConnection);
-                String strSQL = string.Format("SELECT * FROM messages WHERE msgID='{0}'", "1");
+                JavaScriptSerializer ser = new JavaScriptSerializer();
+                String s = ser.Serialize(output);
+                String strSQL = string.Format("INSERT INTO messages VALUES ('{0}','{1}','{2}')", jm.msgFrom.ToString(), jm.msgTo.ToString(), s);
                 SqlCommand Command = new SqlCommand(strSQL, Connection);
-                SqlDataReader Dr;
                 Connection.Open();
-                Dr = Command.ExecuteReader();
-                if (Dr.HasRows)
-                {
-                    if (Dr.Read())
-                    {
-                        //Debug.WriteLine(string.Format("{0} {1} {2} {3}", Dr.GetValue(0).ToString(), Dr.GetValue(1).ToString(), Dr.GetValue(2).ToString(), Dr.GetValue(3).ToString()));
-                    }
-                }
-                Dr.Close();
+                Command.ExecuteNonQuery();
+                
+                Connection.Close();
             }
-            catch
+            catch (Exception ex)
             {
+                output.errorMessage = ex.Message;
             }
             finally
             {

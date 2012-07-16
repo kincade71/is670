@@ -6,6 +6,11 @@ using System.Text;
 
 namespace Enigma
 {
+    public class UserIn
+    {
+        public string user { get; set; }
+    }
+
     public class RotorIn
     {
         public string rclass { get; set; }
@@ -52,6 +57,7 @@ namespace Enigma
         public string encryptedMessage { get; set; }
         public List<Letter> letters { get; set; }
         public List<EndingPosition> endingPositions { get; set; }
+        public string errorMessage { get; set; }
     }
 
     public class RotorI
