@@ -254,28 +254,28 @@ NSMutableArray *plugboardArray;
 }
 
 - (IBAction)SendPlainText:(id)sender 
-        {
-            NSData *jsonData = [self CreateJSONRequestEncrypt:@"off"];
-            
-            NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"http://www.koinoniasgr.com/enigma/Encrypt/"]];
-            
-            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-            
-            [request setHTTPMethod:@"POST"];
-            [request setHTTPBody:jsonData];
-            [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-            [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-            [request setValue:[NSString stringWithFormat:@"%d",[jsonData length]] forHTTPHeaderField:@"Content-Length"];
-            
-            NSURLResponse *response;  
-            NSError *err;  
-            NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];  
-            
-            NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]; 
-            NSLog(@"responseData: %@", responseString); 
-            [self parseJSONResults:responseData];
-            [text setText:encryptedString];
-        }
+{
+    NSData *jsonData = [self CreateJSONRequestEncrypt:@"off"];
+    
+    NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"http://www.koinoniasgr.com/enigma/Encrypt/"]];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:jsonData];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"%d",[jsonData length]] forHTTPHeaderField:@"Content-Length"];
+    
+    NSURLResponse *response;  
+    NSError *err;  
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];  
+    
+    NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]; 
+    NSLog(@"responseData: %@", responseString); 
+    [self parseJSONResults:responseData Encrypted:NO];
+    [text setText:encryptedString];
+}
 
 
 -(IBAction)SendText:(id)sender
@@ -298,7 +298,7 @@ NSMutableArray *plugboardArray;
     
     NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]; 
     NSLog(@"responseData: %@", responseString);  
-    [self parseJSONResults:responseData];
+    [self parseJSONResults:responseData Encrypted:YES];
     [text setText:encryptedString];
 }
 
@@ -403,7 +403,8 @@ NSMutableArray *plugboardArray;
     
 }
 
-- (void)parseJSONResults:(NSData*)jsonData{
+- (void)parseJSONResults:(NSData*)jsonData
+               Encrypted:(BOOL)encrypted{
     lettersArray = [[NSMutableArray alloc]init];
     endPositionsArray = [[NSMutableArray alloc]init];
     if(jsonData != nil)
@@ -413,31 +414,36 @@ NSMutableArray *plugboardArray;
         if (error==nil)
         {
             encryptedString = [result objectForKey:@"encryptedMessage"];
-            
-            NSArray *positionsDictionary = [result objectForKey:@"endingPositions"];
-            NSDictionary *entry;
-            for(int i=0;i<[positionsDictionary count];i++)
-            {
-                entry = [positionsDictionary objectAtIndex:i];
-                RotorPositions *rp = [[RotorPositions alloc]initWithSlot:[entry objectForKey:@"slot"] position:[entry objectForKey:@"end"]];
-                [endPositionsArray addObject:rp];
-            }
-            
-            NSArray *lettersDictionary = [result objectForKey:@"letters"];
-            NSDictionary *ePath;
-            NSArray *entries;
-            for(int i=0;i<[lettersDictionary count];i++)
-            {
-                ePath = [lettersDictionary objectAtIndex:i];
-                entries = [ePath objectForKey:@"encryptionPath"];
-                encryptionPathArray = [[NSMutableArray alloc]init];
-                for(int j=0;j<[entries count];j++)
+            if (encrypted) {
+                NSArray *positionsDictionary = [result objectForKey:@"endingPositions"];
+                if (positionsDictionary != Nil && [positionsDictionary isKindOfClass:[NSArray class]])
                 {
-                    NSDictionary *entry = [entries objectAtIndex:j];
-                    EncryptionPath *ep = [[EncryptionPath alloc]initWithFrom:[entry objectForKey:@"From"] to:[entry objectForKey:@"To"]];
-                    [encryptionPathArray addObject:ep];
+                    NSLog(@"Got it");
                 }
-                [lettersArray addObject:encryptionPathArray];
+                NSDictionary *entry;
+                for(int i=0;i<[positionsDictionary count];i++)
+                {
+                    entry = [positionsDictionary objectAtIndex:i];
+                    RotorPositions *rp = [[RotorPositions alloc]initWithSlot:[entry objectForKey:@"slot"] position:[entry objectForKey:@"end"]];
+                    [endPositionsArray addObject:rp];
+                }
+                
+                NSArray *lettersDictionary = [result objectForKey:@"letters"];
+                NSDictionary *ePath;
+                NSArray *entries;
+                for(int i=0;i<[lettersDictionary count];i++)
+                {
+                    ePath = [lettersDictionary objectAtIndex:i];
+                    entries = [ePath objectForKey:@"encryptionPath"];
+                    encryptionPathArray = [[NSMutableArray alloc]init];
+                    for(int j=0;j<[entries count];j++)
+                    {
+                        NSDictionary *entry = [entries objectAtIndex:j];
+                        EncryptionPath *ep = [[EncryptionPath alloc]initWithFrom:[entry objectForKey:@"From"] to:[entry objectForKey:@"To"]];
+                        [encryptionPathArray addObject:ep];
+                    }
+                    [lettersArray addObject:encryptionPathArray];
+                }
             }
             
             // Test results
