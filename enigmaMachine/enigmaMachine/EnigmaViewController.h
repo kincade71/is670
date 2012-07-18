@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Rotor.h"
+#import "Plugboard.h"
 
 @interface EnigmaViewController : UIViewController <UITextFieldDelegate>
 {

@@ -44,24 +44,14 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-    <key>CFBundleURLTypes</key>
-    
-    <array>
-        
-        <dict>
-            
-            <key>CFBundleURLSchemes</key>
-            
-            <array>
-                
-                <string>fbAPP_ID</string>
-                
-            </array>
-            
-        </dict>
-        
-    </array>
-    
-
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb455251811160816</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

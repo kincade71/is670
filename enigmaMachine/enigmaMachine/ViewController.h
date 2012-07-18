@@ -18,6 +18,10 @@
     
     IBOutlet UITextField *plug;
     
+    IBOutlet UITextField *rotorType1;
+    IBOutlet UITextField *rotorType2;
+    IBOutlet UITextField *rotorType3;
+    
     
     IBOutlet UIPickerView *rotorAlpha1;
     IBOutlet UIPickerView *rotorAlpha2;
@@ -33,5 +37,8 @@
 - (IBAction)SaveInfo:(id)sender;
 
 - (IBAction)ReturnButton:(id)sender;
+
+- (IBAction)getData;
+
 
 @end

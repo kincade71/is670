@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EnigmaViewController.h"
+#import "AFNetworking.h"
 
-@interface MessageViewController : UITableViewController
+@interface MessageViewController : UITableViewController <UITabBarDelegate>
+{
+    
+    IBOutlet UIBarButtonItem *backButton;
+    
+}
+@property (nonatomic, strong) NSArray *retrieveMessagesArray;
+
+- (IBAction)backToEnigma:(id)sender;
 
 @end

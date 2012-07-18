@@ -7,9 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FBConnect.h"
+#import "LogInViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
+{
+    
+    LogInViewController * _viewController;
+}
+
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) Facebook *facebook;
+@property (nonatomic, strong) LogInViewController *_viewController;
 
 @end

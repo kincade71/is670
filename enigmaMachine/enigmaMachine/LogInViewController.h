@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewController.h"
+#import "FBConnect.h"
 
-@interface LogInViewController : UIViewController
+@interface LogInViewController : UITabBarController <UITabBarDelegate, FBSessionDelegate>
+{
+    Facebook * facebook;
+
+    IBOutlet UIButton *startApp;
+}
+
+@property (nonatomic, strong) Facebook *facebook;
+@property (nonatomic, strong) UIButton *start;
+
+- (IBAction)beginApp:(id)sender;
+
 
 @end

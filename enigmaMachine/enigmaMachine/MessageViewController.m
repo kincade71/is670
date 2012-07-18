@@ -13,6 +13,7 @@
 @end
 
 @implementation MessageViewController
+@synthesize retrieveMessagesArray;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -20,11 +21,35 @@
     if (self) {
         // Custom initialization
     }
+    
+    retrieveMessagesArray = nil;
+    
     return self;
 }
 
 - (void)viewDidLoad
 {
+    NSURL *url = [NSURL URLWithString:@"http://www.koinoniasgr.com/enigma/Encrypt"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSLog(@"Messages received: %@", JSON);
+        
+        NSError* error;
+        NSDictionary* json = [NSJSONSerialization 
+                              JSONObjectWithData:JSON //1
+                              
+                              options:kNilOptions 
+                              error:&error];
+        
+        retrieveMessagesArray = [json objectForKey:@"messages"]; //2
+        
+        
+        NSLog(@"messages: %@", retrieveMessagesArray); //3
+        
+    } failure:nil];
+    [operation start];
+    
+    
     [super viewDidLoad];
 
     // Uncomment the following line to preserve selection between presentations.
@@ -36,6 +61,7 @@
 
 - (void)viewDidUnload
 {
+    backButton = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -59,15 +85,22 @@
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [retrieveMessagesArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NSDictionary *users =[retrieveMessagesArray objectAtIndex:indexPath.row];
+    NSString *cellValue = [users objectForKey:@"messages"];
     
-    // Configure the cell...
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell ==nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    if (retrieveMessagesArray !=nil) {
+        cell.textLabel.text = cellValue;
+    }
     
     return cell;
 }
@@ -124,4 +157,9 @@
      */
 }
 
+- (IBAction)backToEnigma:(id)sender 
+{
+    EnigmaViewController * back = [[EnigmaViewController alloc] initWithNibName:nil bundle:nil];
+    [self presentModalViewController:back animated:YES];
+}
 @end
