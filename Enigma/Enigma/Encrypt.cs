@@ -100,7 +100,7 @@ namespace Enigma
         [WebInvoke(UriTemplate = "", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         public RootObjectOut GetMachineByParam(RootObjectIn jm) //(Stream s)
         {
-          RootObjectOut output = new RootObjectOut();
+            RootObjectOut output = new RootObjectOut();
             String EncodedMessage = "";
             output.errorMessage = "";
 
@@ -348,17 +348,17 @@ namespace Enigma
                     EncodedMessage = EncodedMessage + encodedLetter;
                     output.letters.Add(l);
                 }
+                for (int i = 0; i <= (slotArray.Count() - 1); i++)
+                {
+                    EndingPosition ePos = new EndingPosition();
+                    ePos.slot = (i + 1).ToString();
+                    ePos.end = System.Convert.ToChar(slotArray[i].currentPosition + 65);
+                    output.endingPositions.Add(ePos);
+                }
             }
             else
             {
                 EncodedMessage = TypedMessage;
-            }
-            for (int i = 0; i <= (slotArray.Count() - 1); i++)
-            {
-                EndingPosition ePos = new EndingPosition();
-                ePos.slot = (i + 1).ToString();
-                ePos.end = System.Convert.ToChar(slotArray[i].currentPosition+65);
-                output.endingPositions.Add(ePos);
             }
             output.encryptedMessage = EncodedMessage;
 
