@@ -257,8 +257,13 @@ namespace Enigma
                         reflector.rotorObject = ro;
                     }
                 }
+
+                if (slotArray[1].currentPosition == (slotArray[1].rotorObject.notch - 1))
+                {
+                    DoubleRotate = true;
+                }
+
                 char encodedLetter;
-                //plugboard
                 char newc;
                 output.letters = new List<Letter>();
                 output.endingPositions = new List<EndingPosition>();
